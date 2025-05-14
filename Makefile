@@ -1,6 +1,8 @@
+.PHONY: build start
+
 build:
- cd frontend && npm run build
+ cd frontend && npm install && npm run build
 
 start:
- npx chat-server --client-path ./frontend/dist
+ npx chat-server --client-path=./frontend/dist
  
