@@ -1,0 +1,11 @@
+.h-100.bg-light.container-fluid {
+  padding: 0;
+}
+
+.form-floating > .form-control:not(:placeholder-shown) ~ label:after {
+  background-color: transparent;
+}
+
+.dropdown-menu {
+  z-index: 9999;
+}
