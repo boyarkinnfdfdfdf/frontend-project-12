@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   Button,
@@ -140,8 +140,7 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('login.noAccount')}</span>
-                {' '}
+                <span>{t('login.noAccount')}</span>{' '}
                 <Card.Link href={routes.signup}>{t('login.signupLink')}</Card.Link>
               </div>
             </Card.Footer>

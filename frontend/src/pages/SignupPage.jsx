@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
 import {
   Button,
   Card,
@@ -8,7 +7,7 @@ import {
   Container,
   FloatingLabel,
   Form as RBForm,
-  Row,
+  Row
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -33,17 +32,17 @@ const SignupPage = () => {
       .required(t('signup.errors.required')),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsNotMatch'))
-      .required(t('signup.errors.required')),
+      .required(t('signup.errors.required'))
   });
 
   const handleSubmit = async (
     { username, password },
-    { setSubmitting, setErrors },
+    { setSubmitting, setErrors }
   ) => {
     try {
       const response = await axios.post(apiRoutes.signupPath(), {
         username,
-        password,
+        password
       });
       const { token, username: registeredUser } = response.data;
       login(token, registeredUser);
@@ -71,7 +70,7 @@ const SignupPage = () => {
                 initialValues={{
                   username: '',
                   password: '',
-                  confirmPassword: '',
+                  confirmPassword: ''
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={handleSubmit}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  ErrorMessage, Field, Form as FormikForm, Formik,
+  ErrorMessage, Field, Form as FormikForm, Formik
 } from 'formik';
 import leoProfanity from 'leo-profanity';
 import React, { useEffect, useRef } from 'react';
@@ -22,6 +22,7 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
     .filter((name) => name !== channel?.name);
 
   const inputRef = useRef(null);
+
   useEffect(() => {
     if (show && inputRef.current) {
       inputRef.current.focus();
@@ -38,7 +39,7 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       .min(3, t('renameChannel.errors.min3'))
       .max(20, t('renameChannel.errors.max20'))
       .required(t('renameChannel.errors.required'))
-      .notOneOf(channelNames, t('renameChannel.errors.nameExists')),
+      .notOneOf(channelNames, t('renameChannel.errors.nameExists'))
   });
 
   const handleSubmit = async ({ name }, { setSubmitting, setErrors }) => {
@@ -49,14 +50,14 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       const { data } = await axios.patch(
         apiRoutes.channelPath(channel.id),
         { name: sanitizedName },
-        { headers },
+        { headers }
       );
 
       dispatch(
         channelsActions.renameChannel({
           id: channel.id,
-          changes: { name: data.name },
-        }),
+          changes: { name: data.name }
+        })
       );
 
       toast.success(t('notifications.channelRenamed'));
@@ -74,7 +75,6 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannel.title')}</Modal.Title>
       </Modal.Header>
-
       <Formik
         initialValues={{ name: channel.name }}
         onSubmit={handleSubmit}
@@ -99,7 +99,6 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
                 </div>
               </Form.Group>
             </Modal.Body>
-
             <Modal.Footer>
               <Button
                 variant="secondary"

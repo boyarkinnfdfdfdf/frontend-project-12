@@ -2,7 +2,7 @@ const routes = {
   root: '/',
   login: '/login',
   signup: '/signup',
-  notFound: '*',
-};
+  notFound: '*'
+}
 
-export default routes;
+export default routes

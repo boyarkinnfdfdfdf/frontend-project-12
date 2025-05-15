@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
