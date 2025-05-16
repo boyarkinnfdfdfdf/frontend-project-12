@@ -9,6 +9,6 @@ const { socket } = initApp()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App socket={socket} />,
-  </StrictMode>,
+    <App socket={socket} />
+  </StrictMode>
 )
