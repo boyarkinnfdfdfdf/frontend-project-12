@@ -1,5 +1,5 @@
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const Page404 = () => (
   <Container className="h-100 d-flex flex-column justify-content-center align-items-center">
@@ -13,6 +13,6 @@ const Page404 = () => (
       </Col>
     </Row>
   </Container>
-);
+)
 
-export default Page404;
+export default Page404

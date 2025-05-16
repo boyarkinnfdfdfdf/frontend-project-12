@@ -8,7 +8,7 @@ import { messagesActions } from '../store/messagesSlice.js'
 import {
   hideAddModal,
   hideRenameModal,
-  hideRemoveModal
+  hideRemoveModal,
 } from '../store/modalsSlice.js'
 import AddChannelModal from '../modals/AddChannel.jsx'
 import RenameChannelModal from '../modals/RenameChannel.jsx'
@@ -24,7 +24,7 @@ const ChatPage = () => {
     isAddModalOpen,
     isRenameModalOpen,
     isRemoveModalOpen,
-    channelToEdit
+    channelToEdit,
   } = useSelector((state) => state.modals)
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const ChatPage = () => {
   }, [dispatch, token])
 
   useEffect(() => {
-    socket.on('newMessage', messageData => {
+    socket.on('newMessage', (messageData) => {
       dispatch(messagesActions.addMessage(messageData))
     })
     return () => {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import {
   Button,
   Card,
@@ -9,27 +9,27 @@ import {
   Form as RBForm,
   Image,
   Row,
-} from 'react-bootstrap';
-import { Field, Form, Formik } from 'formik';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header.jsx';
-import { useAuth } from '../AuthContext.jsx';
-import routes from '../services/clientRoutes.js';
-import apiRoutes from '../services/route.js';
+} from 'react-bootstrap'
+import { Field, Form, Formik } from 'formik'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header.jsx'
+import { useAuth } from '../AuthContext.jsx'
+import routes from '../services/clientRoutes.js'
+import apiRoutes from '../services/route.js'
 
 const LoginPage = () => {
-  const { login, isAuth } = useAuth();
-  const [loginError, setLoginError] = useState(null);
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { login, isAuth } = useAuth()
+  const [loginError, setLoginError] = useState(null)
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (isAuth) {
-      navigate(routes.root);
+      navigate(routes.root)
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, navigate])
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
@@ -38,25 +38,31 @@ const LoginPage = () => {
     password: Yup.string()
       .min(3, t('login.errors.min3'))
       .required(t('login.errors.required')),
-  });
+  })
 
-  const handleSubmit = async ({ username, password }, { setSubmitting, setErrors }) => {
+  const handleSubmit = async (
+    { username, password },
+    { setSubmitting, setErrors }
+  ) => {
     try {
-      const response = await axios.post(apiRoutes.loginPath(), { username, password });
-      const { token } = response.data;
-      login(token, username);
-      navigate(routes.root);
+      const response = await axios.post(apiRoutes.loginPath(), {
+        username,
+        password,
+      })
+      const { token } = response.data
+      login(token, username)
+      navigate(routes.root)
     } catch (error) {
       if (error.response?.status === 401) {
-        setErrors({ username: t('login.errorInvalid') });
+        setErrors({ username: t('login.errorInvalid') })
       } else {
-        setErrors({ username: t('notifications.networkError') });
+        setErrors({ username: t('notifications.networkError') })
       }
-      setLoginError(error.message);
+      setLoginError(error.message)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Container fluid className="h-100 bg-light">
@@ -104,8 +110,7 @@ const LoginPage = () => {
                           isInvalid={touched.username && !!errors.username}
                         />
                         <RBForm.Control.Feedback type="invalid">
-                          {errors.username}
-                        </RBForm.Control.Feedback>
+                          {errors.username}</RBForm.Control.Feedback>
                       </FloatingLabel>
 
                       <FloatingLabel
@@ -140,15 +145,18 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('login.noAccount')}</span>{' '}
-                <Card.Link href={routes.signup}>{t('login.signupLink')}</Card.Link>
+                <span>{t('login.noAccount')}</span>
+                <br />
+                <Card.Link href={routes.signup}>
+                  {t('login.signupLink')}
+                </Card.Link>
               </div>
             </Card.Footer>
           </Card>
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

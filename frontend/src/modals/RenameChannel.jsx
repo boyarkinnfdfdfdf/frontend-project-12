@@ -1,9 +1,8 @@
 import axios from 'axios';
 import {
-  ErrorMessage, Field, Form as FormikForm, Formik
+  ErrorMessage, Field, Form as FormikForm, Formik,
 } from 'formik';
 import leoProfanity from 'leo-profanity';
-import React, { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,14 +11,16 @@ import * as Yup from 'yup';
 import apiRoutes, { getAuthHeader } from '../services/route.js';
 import { channelsActions, selectAllChannels } from '../store/channelsSlice.js';
 
+import { useEffect, useRef } from 'react';
+
 const RenameChannelModal = ({ show, handleClose, channel }) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const { t } = useTranslation();
 
   const channelNames = channels
-    .map((ch) => ch.name)
-    .filter((name) => name !== channel?.name);
+    .map(ch => ch.name)
+    .filter(name => name !== channel?.name);
 
   const inputRef = useRef(null);
 
@@ -39,7 +40,7 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       .min(3, t('renameChannel.errors.min3'))
       .max(20, t('renameChannel.errors.max20'))
       .required(t('renameChannel.errors.required'))
-      .notOneOf(channelNames, t('renameChannel.errors.nameExists'))
+      .notOneOf(channelNames, t('renameChannel.errors.nameExists')),
   });
 
   const handleSubmit = async ({ name }, { setSubmitting, setErrors }) => {
@@ -50,13 +51,13 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       const { data } = await axios.patch(
         apiRoutes.channelPath(channel.id),
         { name: sanitizedName },
-        { headers }
+        { headers },
       );
 
       dispatch(
         channelsActions.renameChannel({
           id: channel.id,
-          changes: { name: data.name }
+          changes: { name: data.name },
         })
       );
 
@@ -108,8 +109,7 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
                 {t('modal.cancel')}
               </Button>
               <Button variant="primary" type="submit" disabled={isSubmitting}>
-                {t('modal.save')}
-              </Button>
+                {t('modal.save')}</Button>
             </Modal.Footer>
           </Form>
         )}

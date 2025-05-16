@@ -23,7 +23,7 @@ import {
 const AddChannelModal = ({ show, handleClose }) => {
   const dispatch = useDispatch()
   const channels = useSelector(selectAllChannels)
-  const channelNames = channels.map(ch => ch.name)
+  const channelNames = channels.map((ch) => ch.name)
   const { t } = useTranslation()
 
   const inputRef = useRef(null)
@@ -41,13 +41,13 @@ const AddChannelModal = ({ show, handleClose }) => {
       .required(t('signup.errors.required'))
       .notOneOf(
         channelNames,
-        t('renameChannel.errors.nameExists')
-      )
+        t('renameChannel.errors.nameExists'),
+      ),
   })
 
   const handleSubmit = async (
     { name },
-    { setSubmitting, setErrors }
+    { setSubmitting, setErrors },
   ) => {
     try {
       const sanitizedName = leoProfanity.clean(name)
@@ -56,7 +56,7 @@ const AddChannelModal = ({ show, handleClose }) => {
       const { data } = await axios.post(
         apiRoutes.channelsPath(),
         { name: sanitizedName },
-        { headers }
+        { headers },
       )
 
       dispatch(channelsActions.addChannel(data))
@@ -76,7 +76,6 @@ const AddChannelModal = ({ show, handleClose }) => {
       <Modal.Header closeButton>
         <Modal.Title>{t('addChannel.title')}</Modal.Title>
       </Modal.Header>
-
       <Formik
         initialValues={{ name: '' }}
         onSubmit={handleSubmit}
