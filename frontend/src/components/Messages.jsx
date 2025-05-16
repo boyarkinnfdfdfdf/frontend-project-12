@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
@@ -35,7 +35,7 @@ const Messages = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -61,7 +61,7 @@ const Messages = () => {
         </div>
 
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {messages.map(msg => (
+          {messages.map((msg) => (
             <div key={msg.id} className="text-break mb-2">
               <b>{msg.username || 'user'}</b>
               {': '}
@@ -79,7 +79,7 @@ const Messages = () => {
                 placeholder={t('chat.form.placeholder')}
                 className="border-0 p-0 ps-2 form-control"
                 value={newMessage}
-                onChange={e => setNewMessage(e.target.value)}
+                onChange={(e) => setNewMessage(e.target.value)}
               />
               <button
                 type="submit"

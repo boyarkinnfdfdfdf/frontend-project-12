@@ -9,8 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd frontend && npm ci",
     "format": "prettier --write .",
-    "lint": "eslint src",
-    "lint:fix": "eslint frontend/src --fix"
+    "lint": "eslint frontend/src --ext .js,.jsx",
+    "lint:fix": "eslint frontend/src --ext .js,.jsx --fix"
   },
   "repository": {
     "type": "git",

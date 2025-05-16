@@ -1,15 +1,16 @@
-import 'react-toastify/dist/ReactToastify.css'
-import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import ProtectedRoute from './components/ProtectedRoute.jsx'
-import ChatPage from './pages/ChatPage.jsx'
-import LoginPage from './pages/LoginPage.jsx'
-import Page404 from './pages/Page404.jsx'
-import SignupPage from './pages/SignupPage.jsx'
-import store from './store/store.js'
-import routes from './services/clientRoutes.js'
-import { AuthProvider } from './AuthContext.jsx'
+import React from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import ChatPage from './pages/ChatPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import Page404 from './pages/Page404.jsx';
+import SignupPage from './pages/SignupPage.jsx';
+import store from './store/store.js';
+import routes from './services/clientRoutes.js';
+import { AuthProvider } from './AuthContext.jsx';
 
 const App = ({ socket }) => (
   <Provider store={store}>
@@ -27,6 +28,6 @@ const App = ({ socket }) => (
       </BrowserRouter>
     </AuthProvider>
   </Provider>
-)
+);
 
-export default App
+export default App;
