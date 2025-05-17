@@ -1,17 +1,15 @@
-import js from '@eslint/js';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import js from '@eslint/js'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
 
 export default [
-
   {
     ignores: [
       'node_modules',
       'dist',
-      'build',
-    ],
+      'build'
+    ]
   },
-
   {
     files: ['/.js', '/.jsx'],
     languageOptions: {
@@ -24,33 +22,29 @@ export default [
         document: 'readonly',
         navigator: 'readonly',
         fetch: 'readonly',
-        console: 'readonly',
-      },
+        console: 'readonly'
+      }
     },
     plugins: {
       react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
+      'react-hooks': reactHooksPlugin
     },
     rules: {
       ...js.configs.recommended.rules,
-
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-
-      semi: ['error', 'always'],
-      quotes: ['error', 'single'],
+      semi: ['error', 'always'],quotes: ['error', 'single'],
       'quote-props': ['error', 'as-needed'],
       'no-unused-vars': 'warn',
-      'no-undef': 'error',
+      'no-undef': 'error'
     },
     settings: {
       react: {
-        version: 'detect',
-      },
-    },
-  },
-];
+        version: 'detect'
+      }
+    }
+  }
+]
