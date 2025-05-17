@@ -1,17 +1,13 @@
-import js from '@eslint/js'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import js from '@eslint/js';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 export default [
   {
-    ignores: [
-      'node_modules',
-      'dist',
-      'build'
-    ]
+    ignores: ['node_modules', 'dist', 'build'],
   },
   {
-    files: ['/.js', '/.jsx'],
+    files: ['/*/*.js', '/*/*.jsx'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -22,12 +18,12 @@ export default [
         document: 'readonly',
         navigator: 'readonly',
         fetch: 'readonly',
-        console: 'readonly'
-      }
+        console: 'readonly',
+      },
     },
     plugins: {
       react: reactPlugin,
-      'react-hooks': reactHooksPlugin
+      'react-hooks': reactHooksPlugin,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -36,15 +32,19 @@ export default [
       'react/prop-types': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      semi: ['error', 'always'],quotes: ['error', 'single'],
+
+      semi: ['error', 'always'],
+      quotes: ['error', 'single'],
       'quote-props': ['error', 'as-needed'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'comma-spacing': ['error', { before: false, after: true }],
       'no-unused-vars': 'warn',
-      'no-undef': 'error'
+      'no-undef': 'error',
     },
     settings: {
       react: {
-        version: 'detect'
-      }
-    }
-  }
-]
+        version: 'detect',
+      },
+    },
+  },
+];
