@@ -3,6 +3,15 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 export default [
+
+  {
+    ignores: [
+      'node_modules',
+      'dist',
+      'build',
+    ],
+  },
+
   {
     files: ['/.js', '/.jsx'],
     languageOptions: {
@@ -24,13 +33,17 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
+
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single'],
+
+      semi: ['error', 'always'],
+      quotes: ['error', 'single'],
+      'quote-props': ['error', 'as-needed'],
       'no-unused-vars': 'warn',
       'no-undef': 'error',
     },
