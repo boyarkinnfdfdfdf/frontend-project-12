@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button, Container, Navbar } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'

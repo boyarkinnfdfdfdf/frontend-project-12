@@ -1,10 +1,11 @@
+import React, { useEffect, useRef } from 'react'
 import axios from 'axios'
 import {
   ErrorMessage,
   Field,
   Form as FormikForm,
   Formik,
-} from 'formik';
+} from 'formik'
 import leoProfanity from 'leo-profanity'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
@@ -22,7 +23,7 @@ import {
 const AddChannelModal = ({ show, handleClose }) => {
   const dispatch = useDispatch()
   const channels = useSelector(selectAllChannels)
-  const channelNames = channels.map((ch) => ch.name)
+  const channelNames = channels.map(ch => ch.name)
   const { t } = useTranslation()
 
   const inputRef = useRef(null)
@@ -62,13 +63,15 @@ const AddChannelModal = ({ show, handleClose }) => {
       dispatch(channelsActions.changeChannel(data.id))
       toast.success(t('notifications.channelCreated'))
       handleClose()
-    } catch (err) {
+    }
+    catch (err) {
       setErrors({ name: t('addChannel.error') })
       console.error(err)
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>

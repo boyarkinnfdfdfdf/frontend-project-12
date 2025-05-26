@@ -8,5 +8,7 @@ build:
 	npm run build
 
 lint:
-	npx eslint --ext js,jsx
-	
+ npx eslint .
+
+lint-fix:
+ npx eslint --fix .

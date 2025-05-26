@@ -3,6 +3,6 @@ const routes = {
   login: '/login',
   signup: '/signup',
   notFound: '*',
-};
+}
 
-export default routes;
+export default routes

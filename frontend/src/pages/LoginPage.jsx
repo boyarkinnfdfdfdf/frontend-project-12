@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {
   Button,
@@ -42,20 +43,23 @@ const LoginPage = () => {
   const handleSubmit = async ({ username, password }, { setSubmitting, setErrors }) => {
     try {
       const response = await axios.post(apiRoutes.loginPath(), { username, password })
-      const { token } = response.data;
+      const { token } = response.data
       login(token, username)
       navigate(routes.root)
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response?.status === 401) {
         setErrors({ username: t('login.errorInvalid') })
-      } else {
+      }
+      else {
         setErrors({ username: t('notifications.networkError') })
       }
       setLoginError(error.message)
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Container fluid className="h-100 bg-light">
@@ -139,7 +143,8 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('login.noAccount')}</span>{' '}
+                <span>{t('login.noAccount')}</span>
+                {' '}
                 <Card.Link href={routes.signup}>{t('login.signupLink')}</Card.Link>
               </div>
             </Card.Footer>

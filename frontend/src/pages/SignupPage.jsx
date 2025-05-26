@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import {
@@ -43,17 +44,20 @@ const SignupPage = () => {
       const response = await axios.post(apiRoutes.signupPath(), {
         username,
         password,
-      });
+      })
       const { token, username: registeredUser } = response.data
       login(token, registeredUser)
       navigate(routes.root)
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response?.status === 409) {
         setErrors({ username: t('signup.errors.userExists') })
-      } else {
+      }
+      else {
         setErrors({ username: t('signup.errorSignup') })
       }
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }

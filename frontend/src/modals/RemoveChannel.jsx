@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from 'axios'
 import { Button, Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
@@ -22,10 +23,11 @@ const RemoveChannelModal = ({ show, handleClose, channel }) => {
 
       toast.success(t('notifications.channelRemoved'))
       handleClose()
-    } catch (err) {
+    }
+    catch (err) {
       console.error(t('removeChannel.error'), err)
     }
-  };
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>

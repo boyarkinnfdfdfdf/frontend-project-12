@@ -1,3 +1,4 @@
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dropdown, ButtonGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +7,7 @@ import {
   channelsActions,
   selectAllChannels,
   selectCurrentChannelId,
-} from '../store/channelsSlice.js';
+} from '../store/channelsSlice.js'
 import { showAddModal, showRenameModal, showRemoveModal } from '../store/modalsSlice.js'
 
 import addIcon from '../assets/add.svg'

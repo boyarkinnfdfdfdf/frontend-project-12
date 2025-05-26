@@ -18,8 +18,8 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
   const { t } = useTranslation()
 
   const channelNames = channels
-    .map((ch) => ch.name)
-    .filter((name) => name !== channel?.name)
+    .map(ch => ch.name)
+    .filter(name => name !== channel?.name)
 
   const inputRef = useRef(null)
 
@@ -40,35 +40,37 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
       .max(20, t('renameChannel.errors.max20'))
       .required(t('renameChannel.errors.required'))
       .notOneOf(channelNames, t('renameChannel.errors.nameExists')),
-  });
+  })
 
   const handleSubmit = async ({ name }, { setSubmitting, setErrors }) => {
     try {
-      const sanitizedName = leoProfanity.clean(name);
+      const sanitizedName = leoProfanity.clean(name)
       const headers = getAuthHeader()
 
       const { data } = await axios.patch(
         apiRoutes.channelPath(channel.id),
         { name: sanitizedName },
         { headers },
-      );
+      )
 
       dispatch(
         channelsActions.renameChannel({
           id: channel.id,
           changes: { name: data.name },
         }),
-      );
+      )
 
       toast.success(t('notifications.channelRenamed'))
       handleClose()
-    } catch (err) {
+    }
+    catch (err) {
       setErrors({ name: t('renameChannel.error') })
       console.error(err)
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>
