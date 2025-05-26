@@ -1,46 +1,45 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Header from '../components/Header.jsx';
-import Channels from '../components/Channels.jsx';
-import Messages from '../components/Messages.jsx';
-import { fetchChannels, fetchMessages } from '../store/fetchData.js';
-import { messagesActions } from '../store/messagesSlice.js';
+import { useDispatch, useSelector } from 'react-redux'
+import Header from '../components/Header.jsx'
+import Channels from '../components/Channels.jsx'
+import Messages from '../components/Messages.jsx'
+import { fetchChannels, fetchMessages } from '../store/fetchData.js'
+import { messagesActions } from '../store/messagesSlice.js'
 import {
   hideAddModal,
   hideRenameModal,
   hideRemoveModal,
-} from '../store/modalsSlice.js';
-import AddChannelModal from '../modals/AddChannel.jsx';
-import RenameChannelModal from '../modals/RenameChannel.jsx';
-import RemoveChannelModal from '../modals/RemoveChannel.jsx';
-import { useAuth } from '../AuthContext.jsx';
-import socket from '../services/initSocket.js';
+} from '../store/modalsSlice.js'
+import AddChannelModal from '../modals/AddChannel.jsx'
+import RenameChannelModal from '../modals/RenameChannel.jsx'
+import RemoveChannelModal from '../modals/RemoveChannel.jsx'
+import { useAuth } from '../AuthContext.jsx'
+import socket from '../services/initSocket.js'
 
 const ChatPage = () => {
-  const dispatch = useDispatch();
-  const { token, user: username } = useAuth();
+  const dispatch = useDispatch()
+  const { token, user: username } = useAuth()
 
   const {
     isAddModalOpen,
     isRenameModalOpen,
     isRemoveModalOpen,
     channelToEdit,
-  } = useSelector((state) => state.modals);
+  } = useSelector((state) => state.modals)
 
   useEffect(() => {
-    const headers = { Authorization: `Bearer ${token}` };
-    dispatch(fetchChannels(headers));
-    dispatch(fetchMessages(headers));
-  }, [dispatch, token]);
+    const headers = { Authorization: `Bearer ${token}` }
+    dispatch(fetchChannels(headers))
+    dispatch(fetchMessages(headers))
+  }, [dispatch, token])
 
   useEffect(() => {
     socket.on('newMessage', (messageData) => {
-      dispatch(messagesActions.addMessage(messageData));
-    });
+      dispatch(messagesActions.addMessage(messageData))
+    })
     return () => {
-      socket.off('newMessage');
+      socket.off('newMessage')
     };
-  }, [dispatch]);
+  }, [dispatch])
 
   return (
     <div className="d-flex flex-column h-100">
@@ -68,7 +67,7 @@ const ChatPage = () => {
         channel={channelToEdit}
       />
     </div>
-  );
-};
+  )
+}
 
-export default ChatPage;
+export default ChatPage

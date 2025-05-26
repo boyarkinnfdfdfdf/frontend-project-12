@@ -1,6 +1,5 @@
-import React from 'react';
-import axios from 'axios';
-import { Field, Form, Formik } from 'formik';
+import axios from 'axios'
+import { Field, Form, Formik } from 'formik'
 import {
   Button,
   Card,
@@ -9,19 +8,19 @@ import {
   FloatingLabel,
   Form as RBForm,
   Row,
-} from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import Header from '../components/Header.jsx';
-import apiRoutes from '../services/route.js';
-import { useAuth } from '../AuthContext.jsx';
-import routes from '../services/clientRoutes.js';
+} from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+import Header from '../components/Header.jsx'
+import apiRoutes from '../services/route.js'
+import { useAuth } from '../AuthContext.jsx'
+import routes from '../services/clientRoutes.js'
 
 const SignupPage = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -34,7 +33,7 @@ const SignupPage = () => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsNotMatch'))
       .required(t('signup.errors.required')),
-  });
+  })
 
   const handleSubmit = async (
     { username, password },
@@ -45,19 +44,19 @@ const SignupPage = () => {
         username,
         password,
       });
-      const { token, username: registeredUser } = response.data;
-      login(token, registeredUser);
-      navigate(routes.root);
+      const { token, username: registeredUser } = response.data
+      login(token, registeredUser)
+      navigate(routes.root)
     } catch (error) {
       if (error.response?.status === 409) {
-        setErrors({ username: t('signup.errors.userExists') });
+        setErrors({ username: t('signup.errors.userExists') })
       } else {
-        setErrors({ username: t('signup.errorSignup') });
+        setErrors({ username: t('signup.errorSignup') })
       }
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Container fluid className="h-100 bg-light">
@@ -146,7 +145,7 @@ const SignupPage = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage
