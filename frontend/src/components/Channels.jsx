@@ -50,7 +50,7 @@ const Channels = () => {
                   className={`w-100 rounded-0 text-start btn ${variant}`}
                   onClick={() => handleChannelClick(channel.id)}
                 >
-                  <span className="me-1">#</span>
+                  <span className="me-1" aria-hidden="true">#</span>
                   {channel.name}
                 </button>
                 {channel.removable && (
