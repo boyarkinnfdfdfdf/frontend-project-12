@@ -5,7 +5,7 @@ import globals from 'globals'
 
 export default [
   js.configs.recommended,
-  stylistic.configs.customize({}), // или используйте пример выше
+  stylistic.configs.customize({}),
   {
     ignores: ['node_modules', 'dist'],
     files: ['**/*.{js,jsx}'],
