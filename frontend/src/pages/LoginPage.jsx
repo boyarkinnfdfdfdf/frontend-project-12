@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/brace-style */
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {
@@ -46,17 +47,14 @@ const LoginPage = () => {
       const { token } = response.data
       login(token, username)
       navigate(routes.root)
-    }
-    catch (error) {
+    } catch (error) {
       if (error.response?.status === 401) {
         setErrors({ username: t('login.errorInvalid') })
-      }
-      else {
+      } else {
         setErrors({ username: t('notifications.networkError') })
       }
       setLoginError(error.message)
-    }
-    finally {
+    } finally {
       setSubmitting(false)
     }
   }

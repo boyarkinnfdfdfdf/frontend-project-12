@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/brace-style */
 import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import {
@@ -47,16 +48,13 @@ const SignupPage = () => {
       const { token, username: registeredUser } = response.data
       login(token, registeredUser)
       navigate(routes.root)
-    }
-    catch (error) {
+    } catch (error) {
       if (error.response?.status === 409) {
         setErrors({ username: t('signup.errors.userExists') })
-      }
-      else {
+      } else {
         setErrors({ username: t('signup.errorSignup') })
       }
-    }
-    finally {
+    } finally {
       setSubmitting(false)
     }
   }
