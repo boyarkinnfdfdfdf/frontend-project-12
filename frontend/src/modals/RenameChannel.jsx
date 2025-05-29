@@ -3,7 +3,7 @@ import {
   ErrorMessage, Field, Form as FormikForm, Formik,
 } from 'formik'
 import leoProfanity from 'leo-profanity'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'

@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/arrow-parens */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Header from '../components/Header.jsx'
 import Channels from '../components/Channels.jsx'
