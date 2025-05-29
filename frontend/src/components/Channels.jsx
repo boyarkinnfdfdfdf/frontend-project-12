@@ -2,11 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dropdown, ButtonGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
-import {
-  channelsActions,
-  selectAllChannels,
-  selectCurrentChannelId,
-} from '../store/channelsSlice.js'
+import { channelsActions, selectAllChannels, selectCurrentChannelId } from '../store/channelsSlice.js'
 import { showAddModal, showRenameModal, showRemoveModal } from '../store/modalsSlice.js'
 
 import addIcon from '../assets/add.svg'
@@ -36,10 +32,7 @@ const Channels = () => {
         </button>
       </div>
 
-      <ul
-        className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
-        id="channels-box"
-      >
+      <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" id="channels-box">
         {channels.map((channel) => {
           const variant = channel.id === currentChannelId ? 'btn-secondary' : ''
           return (
@@ -50,9 +43,10 @@ const Channels = () => {
                   className={`w-100 rounded-0 text-start btn ${variant}`}
                   onClick={() => handleChannelClick(channel.id)}
                 >
-                  <span className="me-1" aria-hidden="true">#</span>
+                  <span className="me-1">#</span>
                   {channel.name}
                 </button>
+
                 {channel.removable && (
                   <Dropdown as={ButtonGroup}>
                     <Dropdown.Toggle
@@ -60,9 +54,7 @@ const Channels = () => {
                       variant={channel.id === currentChannelId ? 'secondary' : 'light'}
                       id={`dropdown-${channel.id}`}
                     >
-                      <span className="visually-hidden">
-                        {t('chat.channelManagement')}
-                      </span>
+                      <span className="visually-hidden">{t('chat.channelManagement')}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => dispatch(showRenameModal(channel))}>
