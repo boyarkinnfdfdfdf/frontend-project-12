@@ -1,51 +1,46 @@
-/* eslint-disable @stylistic/brace-style */
-/* eslint-disable @stylistic/arrow-parens */
-import { useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 import leoProfanity from 'leo-profanity'
 import { useAuth } from '../AuthContext.jsx'
-import {
-  selectCurrentChannel,
-  selectCurrentChannelId,
-} from '../store/channelsSlice.js'
-import { selectCurrentChannelMessages } from '../store/messagesSlice.js'
+import { selectCurrentChannel, selectCurrentChannelId } from '../store/channelsSlice.js'
+import { useFetchMessagesQuery, useSendMessageMutation } from '../store/messagesApi'
 
 const Messages = () => {
   const { t } = useTranslation()
-  const [newMessage, setNewMessage] = useState('')
-
-  const messages = useSelector(selectCurrentChannelMessages)
   const currentChannel = useSelector(selectCurrentChannel)
   const currentChannelId = useSelector(selectCurrentChannelId)
   const { token, user: username } = useAuth()
+  const inputRef = useRef(null)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const trimmed = newMessage.trim()
-    if (!trimmed) return
+  const { data: messages = [], isLoading, error } = useFetchMessagesQuery({ channelId: currentChannelId })
+  const [sendMessage] = useSendMessageMutation()
 
-    const sanitized = leoProfanity.clean(trimmed)
-    const payload = {
-      channelId: currentChannelId,
-      body: sanitized,
-      username,
-    }
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [currentChannelId])
 
+  const validationSchema = Yup.object({
+    body: Yup.string().trim().required(t('chat.errors.required')),
+  })
+
+  const handleSubmit = async (values, { resetForm, setSubmitting, setFieldError }) => {
+    const sanitized = leoProfanity.clean(values.body.trim())
     try {
-      await fetch('/api/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // eslint-disable-next-line @stylistic/quote-props
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      })
-
-      setNewMessage('')
+      await sendMessage({
+        channelId: currentChannelId,
+        body: sanitized,
+        username,
+        token,
+      }).unwrap()
+      resetForm()
     } catch (err) {
+      setFieldError('body', t('chat.sendError'))
       console.error(t('chat.sendError'), err)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -65,11 +60,11 @@ const Messages = () => {
         </div>
 
         <div id="messages-box" className="chat-messages overflow-auto px-5">
+          {isLoading && <div>{t('chat.loading')}</div>}
+          {error && <div className="text-danger">{t('chat.loadError')}</div>}
           {messages.map((msg) => (
             <div key={msg.id} className="text-break mb-2">
-              <b>
-                {msg.username || 'user'}
-              </b>
+              <b>{msg.username || 'user'}</b>
               {': '}
               {msg.body}
             </div>
@@ -77,27 +72,42 @@ const Messages = () => {
         </div>
 
         <div className="mt-auto px-5 py-3">
-          <form className="py-1 border rounded-2" onSubmit={handleSubmit} noValidate>
-            <div className="input-group has-validation">
-              <input
-                name="body"
-                aria-label={t('chat.form.ariaLabel')}
-                placeholder={t('chat.form.placeholder')}
-                className="border-0 p-0 ps-2 form-control"
-                value={newMessage}
-                // eslint-disable-next-line @stylistic/arrow-parens
-                onChange={(e) => setNewMessage(e.target.value)}
-              />
-              <button
-                type="submit"
-                disabled={!newMessage.trim()}
-                className="btn btn-group-vertical"
-              >
-                <img src="/assets/send.svg" alt="Send" width={20} height={20} />
-                <span className="visually-hidden">{t('chat.form.send')}</span>
-              </button>
-            </div>
-          </form>
+          <Formik
+            initialValues={{ body: '' }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, errors, touched, values }) => (
+              <Form className="py-1 border rounded-2" noValidate>
+                <div className="input-group has-validation">
+                  <Field
+                    innerRef={inputRef}
+                    name="body"
+                    aria-label={t('chat.form.ariaLabel')}
+                    placeholder={t('chat.form.placeholder')}
+                    className={
+                      `border-0 p-0 ps-2 form-control ${errors.body && touched.body ? 'is-invalid' : ''}`
+                    }
+                    autoComplete="off"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !values.body.trim()}
+                    className="btn btn-group-vertical"
+                  >
+                    <img src="/assets/send.svg" alt="Send" width={20} height={20} />
+                    <span className="visually-hidden">{t('chat.form.send')}</span>
+                  </button>
+                  <ErrorMessage
+                    name="body"
+                    render={(msg) => (
+                      <div className="invalid-feedback d-block">{msg}</div>
+                    )}
+                  />
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
