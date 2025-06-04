@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/brace-style */
 import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import {
