@@ -1,38 +1,31 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import { createSelector } from 'reselect'
-import { channelsActions } from './channelsSlice.js'
+import { createSlice } from '@reduxjs/toolkit';
 
-const messagesAdapter = createEntityAdapter()
-const initialState = messagesAdapter.getInitialState()
+const initialState = {
+  messages: [],
+};
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessage: messagesAdapter.addOne,
-    addMessages: messagesAdapter.addMany,
-    setMessages: messagesAdapter.setAll,
+    addMessages: (state, { payload }) => {
+      state.messages = payload;
+    },
+    addMessage: (state, { payload }) => {
+      state.messages.push(payload);
+    },
+    removeMessage: (state, { payload }) => {
+      state.messages = state.messages.filter((msg) => msg.id !== payload);
+    },
   },
-  extraReducers: (builder) => {
-    builder.addCase(
-      channelsActions.removeChannel,
-      (state, { payload: removedChannelId }) => {
-        const idsToRemove = Object.values(state.entities)
-          .filter(msg => msg.channelId === removedChannelId)
-          .map(msg => msg.id)
-        messagesAdapter.removeMany(state, idsToRemove)
-      },
-    )
-  },
-})
+});
 
-export const { actions: messagesActions } = messagesSlice
-export default messagesSlice.reducer
+export const selectCurrentChannelMessages = [
+  (state) => state.messages.messages,
+  (state) => state.currentChannel.currentChannelId,
+  (messages, currentChannelId) =>
+    messages.filter((msg) => msg.channelId === currentChannelId),
+];
 
-const messagesSelectors = messagesAdapter.getSelectors(state => state.messages)
-export const selectAllMessages = messagesSelectors.selectAll
-
-export const selectCurrentChannelMessages = createSelector(
-  [selectAllMessages, state => state.channels.currentChannelId],
-  (allMessages, currentChannelId) => allMessages.filter(m => m.channelId === currentChannelId),
-)
+export const { addMessages, addMessage, removeMessage } = messagesSlice.actions;
+export default messagesSlice.reducer;

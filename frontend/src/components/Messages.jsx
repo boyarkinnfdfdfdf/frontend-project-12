@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { useRef, useEffect } from 'react'
 import { useAuth } from '../AuthContext.jsx'
 import { selectCurrentChannelId } from '../store/currentChanelSlice.js'
-import { selectChannelById } from '../store/channelsSlice.js'
-import {
-  useFetchMessagesQuery,
-  useSendMessageMutation,
-} from '../store/messagesApi'
+import { selectCurrentChannel } from '../store/channelsSlice.js'
+import { useFetchMessagesQuery, useSendMessageMutation } from '../store/messagesApi'
 import SendMessageForm from './SendMessageForm'
+
 
 const Messages = () => {
   const { t } = useTranslation()
