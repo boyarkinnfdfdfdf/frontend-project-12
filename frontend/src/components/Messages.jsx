@@ -2,10 +2,8 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useRef, useEffect } from 'react'
 import { useAuth } from '../AuthContext.jsx'
-import {
-  selectCurrentChannel,
-  selectCurrentChannelId,
-} from '../store/channelsSlice.js'
+import { selectCurrentChannelId } from '../store/currentChanelSlice.js'
+import { selectChannelById } from '../store/channelsSlice.js'
 import {
   useFetchMessagesQuery,
   useSendMessageMutation,
