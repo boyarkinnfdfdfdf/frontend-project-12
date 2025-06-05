@@ -1,9 +1,7 @@
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-import { channelsActions } from '../store/channelsSlice.js';
-import { selectCurrentChannelId, setCurrentChannel } from '../store/currentChannelSlice.js';
+import { selectCurrentChannelId, setCurrentChannelId } from '../store/currentChannelSlice.js';
 import { showRenameModal, showRemoveModal } from '../store/modalsSlice.js';
 
 const Channel = ({ channel }) => {
@@ -16,7 +14,7 @@ const Channel = ({ channel }) => {
   const dropdownVariant = isActive ? 'secondary' : 'light';
 
   const handleChannelClick = () => {
-    dispatch(setCurrentChannel(channel.id));
+    dispatch(setCurrentChannelId(channel.id));
   };
 
 return (
@@ -54,4 +52,4 @@ return (
 )
 }
 
-export default Channel
+export default Channel;
