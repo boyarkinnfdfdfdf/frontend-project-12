@@ -3,7 +3,7 @@ import Channels from '../components/Channels.jsx'
 import Messages from '../components/Messages.jsx'
 import ModalFacade from '../modals/ModalFacade.jsx'
 import { useSelector } from 'react-redux'
-import { useAuth } from '../hooks'
+import { useAuth } from '../AuthContext.jsx'
 
 const ChatPage = () => {
   const { user } = useAuth()
