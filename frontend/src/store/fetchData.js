@@ -1,15 +1,26 @@
-import axios from 'axios';
-import { addChannels } from './channelsSlice';
-import { addMessages } from './messagesSlice';
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import i18n from '../services/i18n.js'
+import apiRoutes from '../services/route.js'
+import { channelsActions } from './channelsSlice.js'
+import { messagesActions } from './messagesSlice.js'
 
-export const fetchData = () => async (dispatch) => {
+export const fetchChannels = headers => async (dispatch) => {
   try {
-    const [channelsRes, messagesRes] = await Promise.all([
-      axios.get('/api/v1/channels'),
-      axios.get('/api/v1/messages'),
-    ]);
-    dispatch(addChannels(channelsRes.data));
-    dispatch(addMessages(messagesRes.data));
-  } catch (e) {
+    const { data } = await axios.get(apiRoutes.channelsPath(), { headers })
+    dispatch(channelsActions.setChannels(data))
   }
-};
+  catch {
+    toast.error(i18n.t('notifications.fetchError'))
+  }
+}
+
+export const fetchMessages = headers => async (dispatch) => {
+  try {
+    const { data } = await axios.get(apiRoutes.messagesPath(), { headers })
+    dispatch(messagesActions.setMessages(data))
+  }
+  catch {
+    toast.error(i18n.t('notifications.fetchError'))
+  }
+}

@@ -52,4 +52,4 @@ return (
 )
 }
 
-export default Channel;
+export default Channel
