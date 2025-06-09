@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { selectAllChannels } from '../store/channelsSlice.js'
+import { selectChannels } from '../store/channelsSlice.js'
 import { showAddModal } from '../store/modalsSlice.js'
 import addIcon from '../assets/add.svg'
 import Channel from './Channel.jsx'
@@ -8,7 +8,7 @@ import Channel from './Channel.jsx'
 const Channels = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const channels = useSelector(selectAllChannels)
+  const channels = useSelector(selectChannels)
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
