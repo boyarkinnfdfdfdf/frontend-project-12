@@ -23,9 +23,11 @@ const channelsSlice = createSlice({
         state.channels[idx] = payload;
       }
     },
+    setChannels: (state, { payload }) => {
+      state.channels = payload;
+    },
   },
 });
-
 
 export const channelsActions = channelsSlice.actions;
 export const selectChannels = (state) => state.channels.channels;

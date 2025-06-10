@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const selectAuthToken = (state) => state.auth?.user?.token;
+const selectAuthToken = (state) => state.auth.token;
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1/messages',
+    baseUrl: 'http://localhost:5000/api/v1/channels',
     prepareHeaders: (headers, { getState }) => {
       const token = selectAuthToken(getState());
       if (token) {

@@ -5,7 +5,11 @@ import leoProfanity from 'leo-profanity'
 import { useTranslation } from 'react-i18next'
 
 const SendMessageForm = ({
-  username, token, currentChannelId, sendMessage, isSubmitting: parentIsSubmitting
+  username,
+  token,
+  currentChannelId,
+  sendMessage,
+  isSubmitting: parentIsSubmitting,
 }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
@@ -30,7 +34,7 @@ const SendMessageForm = ({
       resetForm()
     } catch (err) {
       setFieldError('body', t('chat.sendError'))
-      console.error(t('chat.sendError'), err)
+      console.error('Send message error:', err)
     } finally {
       setSubmitting(false)
     }
@@ -50,12 +54,16 @@ const SendMessageForm = ({
               name="body"
               aria-label={t('chat.form.ariaLabel')}
               placeholder={t('chat.form.placeholder')}
-              className={`border-0 p-0 ps-2 form-control ${errors.body && touched.body ? 'is-invalid' : ''}`}
+              className={`border-0 p-0 ps-2 form-control ${
+                errors.body && touched.body ? 'is-invalid' : ''
+              }`}
               autoComplete="off"
             />
             <button
               type="submit"
-              disabled={isSubmitting || parentIsSubmitting || !values.body.trim()}
+              disabled={
+                isSubmitting || parentIsSubmitting || !values.body.trim()
+              }
               className="btn btn-group-vertical"
             >
               <img src="/assets/send.svg" alt="Send" width={20} height={20} />
@@ -63,9 +71,7 @@ const SendMessageForm = ({
             </button>
             <ErrorMessage
               name="body"
-              render={(msg) => (
-                <div className="invalid-feedback d-block">{msg}</div>
-              )}
+              render={(msg) => <div className="invalid-feedback d-block">{msg}</div>}
             />
           </div>
         </Form>

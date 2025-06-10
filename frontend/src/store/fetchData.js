@@ -8,7 +8,7 @@ import { messagesActions } from './messagesSlice.js'
 export const fetchChannels = headers => async (dispatch) => {
   try {
     const { data } = await axios.get(apiRoutes.channelsPath(), { headers })
-    dispatch(channelsActions.setChannels(data))
+    dispatch(channelsActions.addChannels(data));
   }
   catch {
     toast.error(i18n.t('notifications.fetchError'))

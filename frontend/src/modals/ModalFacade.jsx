@@ -17,7 +17,7 @@ const ModalFacade = () => {
     )
   }
 
-  if (isRenameModalOpen) {
+  if (isRenameModalOpen && channelToEdit) {
     return (
       <RenameChannelModal
         show
@@ -27,7 +27,7 @@ const ModalFacade = () => {
     )
   }
 
-  if (isRemoveModalOpen) {
+  if (isRemoveModalOpen && channelToEdit) {
     return (
       <RemoveChannelModal
         show
