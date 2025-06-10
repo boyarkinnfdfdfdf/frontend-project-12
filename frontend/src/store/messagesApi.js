@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const selectAuthToken = (state) => state.auth.token;
+const selectAuthToken = (state) => {
+  return state.auth && state.auth.token ? state.auth.token : null;
+};
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',

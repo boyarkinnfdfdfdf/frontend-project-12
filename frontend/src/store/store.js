@@ -5,9 +5,11 @@ import currentChannelReducer from './currentChannelSlice'
 import modalsReducer from './modalsSlice'
 import { channelsApi } from './channelsApi'
 import { messagesApi } from './messagesApi'
+import authReducer from './authSlice'
 
 const store = configureStore({
   reducer: {
+    auth: authReducer,
     channels: channelsReducer,
     messages: messagesReducer,
     currentChannel: currentChannelReducer,
