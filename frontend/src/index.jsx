@@ -3,9 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/index.css'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import initApp from './initApp.js'
-
-const { socket } = initApp()
+import socket from './services/initSocket.js'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
