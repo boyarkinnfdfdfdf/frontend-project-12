@@ -3,7 +3,6 @@ import channelsReducer from './channelsSlice'
 import messagesReducer from './messagesSlice'
 import currentChannelReducer from './currentChannelSlice'
 import modalsReducer from './modalsSlice'
-import authReducer from './authSlice'
 import { channelsApi } from './channelsApi'
 import { messagesApi } from './messagesApi'
 
