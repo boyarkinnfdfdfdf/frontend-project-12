@@ -12,7 +12,6 @@ const store = configureStore({
     messages: messagesReducer,
     currentChannel: currentChannelReducer,
     modals: modalsReducer,
-    auth: authReducer,
     [channelsApi.reducerPath]: channelsApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
