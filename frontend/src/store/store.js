@@ -1,11 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
-import channelsReducer from './channelsSlice'
-import messagesReducer from './messagesSlice'
-import currentChannelReducer from './currentChannelSlice'
-import modalsReducer from './modalsSlice'
-import { channelsApi } from './channelsApi'
-import { messagesApi } from './messagesApi'
-import authReducer from './authSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import channelsReducer from './channelsSlice';
+import messagesReducer from './messagesSlice';
+import currentChannelReducer from './currentChannelSlice';
+import modalsReducer from './modalsSlice';
+import { channelsApi } from './channelsApi';
+import { messagesApi } from './messagesApi';
+import authReducer from './authSlice';
 
 const store = configureStore({
   reducer: {
@@ -21,6 +21,6 @@ const store = configureStore({
     getDefaultMiddleware()
       .concat(channelsApi.middleware)
       .concat(messagesApi.middleware),
-})
+});
 
-export default store
+export default store;

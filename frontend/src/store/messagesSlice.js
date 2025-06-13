@@ -1,31 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const initialState = {
-  messages: [],
-};
+const selectAuthToken = (state) => state.auth?.token ?? '';
 
-const messagesSlice = createSlice({
-  name: 'messages',
-  initialState,
-  reducers: {
-    addMessages: (state, { payload }) => {
-      state.messages = payload;
+export const messagesApi = createApi({
+  reducerPath: 'messagesApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/api/v1/messages',
+    prepareHeaders: (headers, { getState }) => {
+      const token = selectAuthToken(getState());
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
     },
-    addMessage: (state, { payload }) => {
-      state.messages.push(payload);
-    },
-    removeMessage: (state, { payload }) => {
-      state.messages = state.messages.filter((msg) => msg.id !== payload);
-    },
-  },
+  }),
+  endpoints: (build) => ({
+    fetchMessages: build.query({
+      query: (params) => (params?.channelId ? `?channelId=${params.channelId}` : ''),
+    }),
+    addMessage: build.mutation({
+      query: (body) => ({
+        url: '',
+        method: 'POST',
+        body,
+      }),
+    }),
+    removeMessage: build.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+  }),
 });
 
-export const selectCurrentChannelMessages = [
-  (state) => state.messages.messages,
-  (state) => state.currentChannel.currentChannelId,
-  (messages, currentChannelId) =>
-    messages.filter((msg) => msg.channelId === currentChannelId),
-];
-
-export const { addMessages, addMessage, removeMessage } = messagesSlice.actions;
-export default messagesSlice.reducer;
+export const {
+  useFetchMessagesQuery,
+  useAddMessageMutation,
+  useRemoveMessageMutation,
+} = messagesApi;

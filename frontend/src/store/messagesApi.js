@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const selectAuthToken = (state) => (state.auth?.token ?? '');
+const selectAuthToken = (state) => state.auth?.token ?? '';
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5002/api/v1/messages',
+    baseUrl: '/api/v1/messages',
     prepareHeaders: (headers, { getState }) => {
       const token = selectAuthToken(getState());
       if (token) {
@@ -14,19 +14,18 @@ export const messagesApi = createApi({
       return headers;
     },
   }),
-endpoints: (build) => ({
+  endpoints: (build) => ({
     fetchMessages: build.query({
-      query: (params) =>
-        params?.channelId ? `?channelId=${params.channelId}` : '',
+      query: (params) => (params?.channelId ? `?channelId=${params.channelId}` : ''),
     }),
-    addMessage: builder.mutation({
+    addMessage: build.mutation({
       query: (body) => ({
         url: '',
         method: 'POST',
         body,
       }),
     }),
-    removeMessage: builder.mutation({
+    removeMessage: build.mutation({
       query: (id) => ({
         url: `/${id}`,
         method: 'DELETE',
