@@ -39,3 +39,4 @@ export const {
   useAddMessageMutation,
   useRemoveMessageMutation,
 } = messagesApi;
+export const messagesReducer = messagesApi.reducer;

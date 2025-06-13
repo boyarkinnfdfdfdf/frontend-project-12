@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import channelsReducer from './channelsSlice';
-import messagesReducer from './messagesSlice';
 import currentChannelReducer from './currentChannelSlice';
 import modalsReducer from './modalsSlice';
 import { channelsApi } from './channelsApi';
 import { messagesApi } from './messagesApi';
 import authReducer from './authSlice';
+import { messagesReducer } from './messagesSlice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    channels: channelsReducer,
     messages: messagesReducer,
+    channels: channelsReducer,
     currentChannel: currentChannelReducer,
     modals: modalsReducer,
     [channelsApi.reducerPath]: channelsApi.reducer,
