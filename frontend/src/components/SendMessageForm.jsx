@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import { useRef, useEffect } from 'react'
 import leoProfanity from 'leo-profanity'
 import { useTranslation } from 'react-i18next'
+import sendIcon from '../assets/send.svg';
 
 const SendMessageForm = ({
   username,
@@ -66,7 +67,7 @@ const SendMessageForm = ({
               }
               className="btn btn-group-vertical"
             >
-              <img src="/assets/send.svg" alt="Send" width={20} height={20} />
+              <img src={sendIcon} alt="Send" width={20} height={20} />
               <span className="visually-hidden">{t('chat.form.send')}</span>
             </button>
             <ErrorMessage
