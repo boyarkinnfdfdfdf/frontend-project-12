@@ -5,7 +5,7 @@ const selectAuthToken = (state) => state.auth?.token ?? '';
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1/messages',
+    baseUrl: '/api/v1',
     prepareHeaders: (headers, { getState }) => {
       const token = selectAuthToken(getState());
       if (token) {
@@ -16,18 +16,18 @@ export const messagesApi = createApi({
   }),
   endpoints: (build) => ({
     fetchMessages: build.query({
-      query: (params) => (params?.channelId ? `?channelId=${params.channelId}` : ''),
+      query: ({ channelId }) => `/channels/${channelId}/messages`,
     }),
     addMessage: build.mutation({
-      query: (body) => ({
-        url: '',
+      query: ({ channelId, ...body }) => ({
+        url: `/channels/${channelId}/messages`,
         method: 'POST',
         body,
       }),
     }),
     removeMessage: build.mutation({
-      query: (id) => ({
-        url: `/${id}`,
+      query: ({ id, channelId }) => ({
+        url: `/channels/${channelId}/messages/${id}`,
         method: 'DELETE',
       }),
     }),

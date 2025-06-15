@@ -3,17 +3,17 @@ import * as Yup from 'yup'
 import { useRef, useEffect } from 'react'
 import leoProfanity from 'leo-profanity'
 import { useTranslation } from 'react-i18next'
-import sendIcon from '../assets/send.svg';
+import sendIcon from '../assets/send.svg'
+import { useAddMessageMutation } from '../store/messagesApi'
 
 const SendMessageForm = ({
   username,
-  token,
   currentChannelId,
-  sendMessage,
   isSubmitting: parentIsSubmitting,
 }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
+  const [addMessage] = useAddMessageMutation();
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -26,11 +26,10 @@ const SendMessageForm = ({
   const handleSubmit = async (values, { resetForm, setSubmitting, setFieldError }) => {
     const sanitized = leoProfanity.clean(values.body.trim())
     try {
-      await sendMessage({
+      await addMessage({
         channelId: currentChannelId,
         body: sanitized,
         username,
-        token,
       }).unwrap()
       resetForm()
     } catch (err) {

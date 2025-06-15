@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/brace-style */
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import {
@@ -16,21 +15,23 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
-import { useAuth } from '../AuthContext.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { setToken } from '../store/authSlice'
 import routes from '../services/clientRoutes.js'
 import apiRoutes from '../services/route.js'
 
 const LoginPage = () => {
-  const { login, isAuth } = useAuth()
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token);
   const [loginError, setLoginError] = useState(null)
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (isAuth) {
+    if (token) {
       navigate(routes.root)
     }
-  }, [isAuth, navigate])
+  }, [token, navigate])
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
@@ -45,7 +46,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post(apiRoutes.loginPath(), { username, password })
       const { token } = response.data
-      login(token, username)
+      dispatch(setToken(token))
       navigate(routes.root)
     } catch (error) {
       if (error.response?.status === 401) {
@@ -58,7 +59,6 @@ const LoginPage = () => {
       setSubmitting(false)
     }
   }
-
   return (
     <Container fluid className="h-100 bg-light">
       <Header />
@@ -150,7 +150,8 @@ const LoginPage = () => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
+  
