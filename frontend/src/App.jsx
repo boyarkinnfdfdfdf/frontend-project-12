@@ -13,12 +13,12 @@ const App = ({ socket }) => (
   <AppProvider>
     <BrowserRouter>
       <Routes>
-        <Route path={routes.notFound} element={<Page404 />} />
         <Route path={routes.login} element={<LoginPage />} />
         <Route path={routes.signup} element={<SignupPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path={routes.root} element={<ChatPage socket={socket} />} />
         </Route>
+        <Route path="*" element={<Page404 />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

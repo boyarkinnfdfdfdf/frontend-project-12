@@ -76,7 +76,7 @@ const SignupPage = () => {
                 onSubmit={handleSubmit}
               >
                 {({ errors, touched, isSubmitting }) => (
-                  <Form>
+                  <Form autoComplete="off">
                     <FloatingLabel
                       controlId="username"
                       label={t('signup.username')}
@@ -87,6 +87,7 @@ const SignupPage = () => {
                         name="username"
                         placeholder={t('signup.username')}
                         isInvalid={touched.username && !!errors.username}
+                        autoComplete="username"
                       />
                       <RBForm.Control.Feedback type="invalid">
                         {errors.username}
@@ -104,6 +105,7 @@ const SignupPage = () => {
                         type="password"
                         placeholder={t('signup.password')}
                         isInvalid={touched.password && !!errors.password}
+                        autoComplete="new-password"
                       />
                       <RBForm.Control.Feedback type="invalid">
                         {errors.password}
@@ -123,6 +125,7 @@ const SignupPage = () => {
                         isInvalid={
                           touched.confirmPassword && !!errors.confirmPassword
                         }
+                        autoComplete="new-password"
                       />
                       <RBForm.Control.Feedback type="invalid">
                         {errors.confirmPassword}
