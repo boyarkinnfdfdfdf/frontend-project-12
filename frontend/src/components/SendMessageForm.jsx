@@ -1,80 +1,58 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useRef, useEffect } from 'react';
-import leoProfanity from 'leo-profanity';
+import React, { useRef, useEffect } from 'react';
+import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
+import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import sendIcon from '../assets/send.svg';
-import { useAddMessageMutation } from '../store/messagesApi';
+import leoProfanity from 'leo-profanity';
 
 const SendMessageForm = ({
-  username,
-  currentChannelId,
-  isSubmitting: parentIsSubmitting,
+  onSubmit, parentIsSubmitting, user,
 }) => {
   const { t } = useTranslation();
-  const inputRef = useRef(null);
-  const [addMessage] = useAddMessageMutation();
+  const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [currentChannelId]);
-
-  const validationSchema = Yup.object({
-    body: Yup.string().trim().required(t('chat.errors.required')),
-  });
-
-  const handleSubmit = async (values, { resetForm, setSubmitting, setFieldError }) => {
-    const sanitized = leoProfanity.clean(values.body.trim());
-    try {
-      await addMessage({
-        channelId: currentChannelId,
-        body: sanitized,
-        username,
-      }).unwrap();
-      resetForm();
-    } catch (err) {
-      setFieldError('body', t('chat.sendError'));
-      console.error('Send message error:', err);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  }, []);
 
   return (
     <Formik
       initialValues={{ body: '' }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+        const cleanBody = leoProfanity.clean(values.body);
+        try {
+          await onSubmit({ ...values, body: cleanBody, username: user });
+          resetForm();
+        } catch (e) {
+          setErrors({ body: t('chat.messageSendError') });
+        } finally {
+          setSubmitting(false);
+        }
+      }}
     >
-      {({ isSubmitting, errors, touched, values }) => (
-        <Form className="py-1 border rounded-2" noValidate>
-          <div className="input-group has-validation">
-            <Field
-              innerRef={inputRef}
-              name="body"
-              aria-label={t('chat.form.ariaLabel')}
-              placeholder={t('chat.form.placeholder')}
-              className={`border-0 p-0 ps-2 form-control ${
-                errors.body && touched.body ? 'is-invalid' : ''
-              }`}
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              disabled={
-                isSubmitting || parentIsSubmitting || !values.body.trim()
-              }
-              className="btn btn-group-vertical"
-            >
-              <img src={sendIcon} alt="Send" width={20} height={20} />
-              <span className="visually-hidden">{t('chat.form.send')}</span>
-            </button>
-            <ErrorMessage
-              name="body"
-              render={(msg) => <div className="invalid-feedback d-block">{msg}</div>}
-            />
-          </div>
-        </Form>
+      {({
+        errors, touched, isSubmitting, handleSubmit, values,
+      }) => (
+        <FormikForm noValidate onSubmit={handleSubmit} className="d-flex">
+          <Field
+            as={Form.Control}
+            name="body"
+            ref={inputRef}
+            autoFocus
+            placeholder={t('chat.messageInputPlaceholder')}
+            isInvalid={!!errors.body && touched.body}
+            aria-label={t('chat.messageInputLabel')}
+            className="me-2"
+            autoComplete="off"
+          />
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isSubmitting || parentIsSubmitting || !values.body.trim()}
+          >
+            {t('chat.sendButton')}
+          </Button>
+          <ErrorMessage name="body" component={Form.Control.Feedback} type="invalid" className="d-block" />
+        </FormikForm>
       )}
     </Formik>
   );
