@@ -17,39 +17,39 @@ const Channel = ({ channel }) => {
     dispatch(setCurrentChannelId(channel.id));
   };
 
-return (
-  <li className="nav-item w-100">
-    <div className="btn-group dropdown d-flex">
-      <button
-        type="button"
-        className={`w-100 rounded-0 text-start btn ${variant}`}
-        onClick={handleChannelClick}
-      >
-        <span className="me-1">#</span>
-        {channel.name}
-      </button>
-      {channel.removable && (
-        <Dropdown as={ButtonGroup}>
-          <Dropdown.Toggle
-            split
-            variant={dropdownVariant}
-            id={`dropdown-${channel.id}`}
-          >
-            <span className="visually-hidden">{t('chat.channelManagement')}</span>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => dispatch(showRenameModal(channel))}>
-              {t('chat.renameChannel')}
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => dispatch(showRemoveModal(channel))}>
-              {t('chat.removeChannel')}
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      )}
-    </div>
-  </li>
-)
-}
+  return (
+    <li className="nav-item w-100">
+      <div className="btn-group dropdown d-flex">
+        <button
+          type="button"
+          className={`w-100 rounded-0 text-start btn ${variant}`}
+          onClick={handleChannelClick}
+        >
+          <span className="me-1">#</span>
+          {channel.name}
+        </button>
+        {channel.removable && (
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle
+              split
+              variant={dropdownVariant}
+              id={`dropdown-${channel.id}`}
+            >
+              <span className="visually-hidden">{t('chat.channelManagement')}</span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => dispatch(showRenameModal(channel))}>
+                {t('chat.renameChannel')}
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => dispatch(showRemoveModal(channel))}>
+                {t('chat.removeChannel')}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </div>
+    </li>
+  );
+};
 
-export default Channel
+export default Channel;

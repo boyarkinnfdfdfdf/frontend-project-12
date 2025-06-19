@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const selectAuthToken = (state) => state.auth?.token ?? '';
-
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/messages',
-    prepareHeaders: (headers, { getState }) => {
-      const token = selectAuthToken(getState());
+    prepareHeaders: (headers) => {
+      const token = sessionStorage.getItem('token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }

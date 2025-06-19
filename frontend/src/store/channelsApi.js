@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const selectAuthToken = (state) => state.auth?.token ?? '';
-
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1',
-    prepareHeaders: (headers, { getState }) => {
-      const token = selectAuthToken(getState());
+    prepareHeaders: (headers) => {
+      const token = sessionStorage.getItem('token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -27,7 +25,8 @@ export const channelsApi = createApi({
     }),
     removeChannel: build.mutation({
       query: (id) => ({
-        url: `/channels/${id}`,method: 'DELETE',
+        url: `/channels/${id}`,
+        method: 'DELETE',
       }),
     }),
     renameChannel: build.mutation({
