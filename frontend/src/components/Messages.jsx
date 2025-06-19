@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../AuthContext.jsx'
 import { selectCurrentChannelId } from '../store/currentChannelSlice.js'
 import { selectCurrentChannel } from '../store/channelsSlice.js'
-import { useFetchMessagesQuery, useAddMessageMutation } from '../store/messagesApi'
+import { useGetMessagesQuery, useAddMessageMutation } from '../store/messagesApi'
 import SendMessageForm from './SendMessageForm'
 
 
@@ -13,7 +13,7 @@ const Messages = () => {
   const currentChannelId = useSelector(selectCurrentChannelId)
   const { token, user: username } = useAuth()
 
-  const { data: messages = [], isLoading, error } = useFetchMessagesQuery({ channelId: currentChannelId })
+  const { data: messages = [], isLoading, error } = useGetMessagesQuery({ channelId: currentChannelId })
   const [sendMessage, { isLoading: isSending }] = useAddMessageMutation()
 
   return (
