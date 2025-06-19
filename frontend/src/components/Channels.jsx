@@ -1,22 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Dropdown, ButtonGroup } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux'
+import { Dropdown, ButtonGroup } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
-import { channelsActions, selectAllChannels, selectCurrentChannelId } from '../store/channelsSlice.js';
-import { showAddModal, showRenameModal, showRemoveModal } from '../store/modalsSlice.js';
+import { channelsActions, selectAllChannels, selectCurrentChannelId } from '../store/channelsSlice.js'
+import { showAddModal, showRenameModal, showRemoveModal } from '../store/modalsSlice.js'
 
-import addIcon from '../assets/add.svg';
+import addIcon from '../assets/add.svg'
 
 const Channels = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const channels = useSelector(selectAllChannels);
-  const currentChannelId = useSelector(selectCurrentChannelId);
+  const channels = useSelector(selectAllChannels)
+  const currentChannelId = useSelector(selectCurrentChannelId)
 
   const handleChannelClick = (channelId) => {
-    dispatch(channelsActions.changeChannel(channelId));
-  };
+    dispatch(channelsActions.changeChannel(channelId))
+  }
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -34,7 +34,7 @@ const Channels = () => {
 
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" id="channels-box">
         {channels.map((channel) => {
-          const variant = channel.id === currentChannelId ? 'btn-secondary' : '';
+          const variant = channel.id === currentChannelId ? 'btn-secondary' : ''
           return (
             <li className="nav-item w-100" key={channel.id}>
               <div className="btn-group dropdown d-flex">
@@ -68,11 +68,11 @@ const Channels = () => {
                 )}
               </div>
             </li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Channels;
+export default Channels

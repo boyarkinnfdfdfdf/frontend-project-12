@@ -18,7 +18,7 @@
   },
   "author": "feather-tail",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@hexlet/chat-server": "^2.0.4",
     "@playwright/test": "^1.52.0",

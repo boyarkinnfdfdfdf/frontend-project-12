@@ -1,37 +1,37 @@
-import axios from 'axios';
+import axios from 'axios'
 import {
   ErrorMessage,
   Field,
   Form as FormikForm,
   Formik,
-} from 'formik';
-import leoProfanity from 'leo-profanity';
-import React, { useEffect, useRef } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
+} from 'formik'
+import leoProfanity from 'leo-profanity'
+import React, { useEffect, useRef } from 'react'
+import { Button, Form, Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import * as Yup from 'yup'
 import apiRoutes, {
   getAuthHeader,
-} from '../services/route.js';
+} from '../services/route.js'
 import {
   channelsActions,
   selectAllChannels,
-} from '../store/channelsSlice.js';
+} from '../store/channelsSlice.js'
 
 const AddChannelModal = ({ show, handleClose }) => {
-  const dispatch = useDispatch();
-  const channels = useSelector(selectAllChannels);
-  const channelNames = channels.map((ch) => ch.name);
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const channels = useSelector(selectAllChannels)
+  const channelNames = channels.map(ch => ch.name)
+  const { t } = useTranslation()
 
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
   useEffect(() => {
     if (show && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [show]);
+  }, [show])
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -42,34 +42,36 @@ const AddChannelModal = ({ show, handleClose }) => {
         channelNames,
         t('renameChannel.errors.nameExists'),
       ),
-  });
+  })
 
   const handleSubmit = async (
     { name },
     { setSubmitting, setErrors },
   ) => {
     try {
-      const sanitizedName = leoProfanity.clean(name);
-      const headers = getAuthHeader();
+      const sanitizedName = leoProfanity.clean(name)
+      const headers = getAuthHeader()
 
       const { data } = await axios.post(
         apiRoutes.channelsPath(),
         { name: sanitizedName },
         { headers },
-      );
+      )
 
-      dispatch(channelsActions.addChannel(data));
-      dispatch(channelsActions.changeChannel(data.id));
+      dispatch(channelsActions.addChannel(data))
+      dispatch(channelsActions.changeChannel(data.id))
 
-      toast.success(t('notifications.channelCreated'));
-      handleClose();
-    } catch (err) {
-      setErrors({ name: t('addChannel.error') });
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+      toast.success(t('notifications.channelCreated'))
+      handleClose()
     }
-  };
+    catch (err) {
+      setErrors({ name: t('addChannel.error') })
+      console.error(err)
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -122,7 +124,7 @@ const AddChannelModal = ({ show, handleClose }) => {
         )}
       </Formik>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddChannelModal;
+export default AddChannelModal
