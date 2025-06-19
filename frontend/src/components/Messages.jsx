@@ -1,20 +1,50 @@
-import { useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '../AuthContext.jsx'
-import { selectCurrentChannelId } from '../store/currentChannelSlice.js'
-import { selectCurrentChannel } from '../store/channelsSlice.js'
-import { useGetMessagesQuery, useAddMessageMutation } from '../store/messagesApi'
-import SendMessageForm from './SendMessageForm'
-
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
+import { useAuth } from '../AuthContext.jsx';
+import {
+  selectCurrentChannel,
+  selectCurrentChannelId,
+} from '../store/channelsSlice.js';
+import { selectCurrentChannelMessages } from '../store/messagesSlice.js';
 
 const Messages = () => {
-  const { t } = useTranslation()
-  const currentChannel = useSelector(selectCurrentChannel)
-  const currentChannelId = useSelector(selectCurrentChannelId)
-  const { token, user: username } = useAuth()
+  const { t } = useTranslation();
+  const [newMessage, setNewMessage] = useState('');
 
-  const { data: messages = [], isLoading, error } = useGetMessagesQuery({ channelId: currentChannelId })
-  const [sendMessage, { isLoading: isSending }] = useAddMessageMutation()
+  const messages = useSelector(selectCurrentChannelMessages);
+  const currentChannel = useSelector(selectCurrentChannel);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const { token, user: username } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const trimmed = newMessage.trim();
+    if (!trimmed) return;
+
+    const sanitized = leoProfanity.clean(trimmed);
+    const payload = {
+      channelId: currentChannelId,
+      body: sanitized,
+      username,
+    };
+
+    try {
+      await fetch('/api/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      setNewMessage('');
+    } catch (err) {
+      console.error(t('chat.sendError'), err);
+    }
+  };
 
   return (
     <div className="col p-0 h-100">
@@ -32,11 +62,11 @@ const Messages = () => {
         </div>
 
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {isLoading && <div>{t('chat.loading')}</div>}
-          {error && <div className="text-danger">{t('chat.loadError')}</div>}
           {messages.map((msg) => (
             <div key={msg.id} className="text-break mb-2">
-              <b>{msg.username || 'user'}</b>
+              <b>
+                {msg.username || 'user'}
+              </b>
               {': '}
               {msg.body}
             </div>
@@ -44,17 +74,30 @@ const Messages = () => {
         </div>
 
         <div className="mt-auto px-5 py-3">
-          <SendMessageForm
-            username={username}
-            token={token}
-            currentChannelId={currentChannelId}
-            sendMessage={sendMessage}
-            isSubmitting={isSending}
-          />
+          <form className="py-1 border rounded-2" onSubmit={handleSubmit} noValidate>
+            <div className="input-group has-validation">
+              <input
+                name="body"
+                aria-label={t('chat.form.ariaLabel')}
+                placeholder={t('chat.form.placeholder')}
+                className="border-0 p-0 ps-2 form-control"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              />
+              <button
+                type="submit"
+                disabled={!newMessage.trim()}
+                className="btn btn-group-vertical"
+              >
+                <img src="/assets/send.svg" alt="Send" width={20} height={20} />
+                <span className="visually-hidden">{t('chat.form.send')}</span>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Messages
+export default Messages;

@@ -1,26 +1,42 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+} from 'react';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => JSON.parse(sessionStorage.getItem('user')));
-  const [token, setToken] = useState(() => sessionStorage.getItem('token'));
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [user, setUser] = useState(() => localStorage.getItem('user'));
 
-  const login = (newToken, newUser) => {
-    sessionStorage.setItem('token', newToken);
-    sessionStorage.setItem('user', JSON.stringify(newUser));
+  const login = (newToken, username) => {
+    localStorage.setItem('token', newToken);
+    localStorage.setItem('user', username);
     setToken(newToken);
-    setUser(newUser);
+    setUser(username);
   };
 
   const logout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };
 
+  const isAuth = Boolean(token);
+
+  const value = useMemo(() => ({
+    token,
+    user,
+    login,
+    logout,
+    isAuth,
+  }), [token, user, isAuth]);
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

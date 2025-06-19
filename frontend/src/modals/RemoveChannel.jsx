@@ -1,32 +1,31 @@
-import axios from 'axios'
-import { Button, Modal } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
-import apiRoutes, { getAuthHeader } from '../services/route.js'
-import { channelsActions } from '../store/channelsSlice.js'
+import axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import apiRoutes, { getAuthHeader } from '../services/route.js';
+import { channelsActions } from '../store/channelsSlice.js';
 
 const RemoveChannelModal = ({ show, handleClose, channel }) => {
-  const dispatch = useDispatch()
-  const { t } = useTranslation()
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   if (!channel) {
-    return null
+    return null;
   }
 
   const handleRemove = async () => {
     try {
-      const headers = getAuthHeader()
-      await axios.delete(apiRoutes.channelPath(channel.id), { headers })
-      dispatch(channelsActions.removeChannel(channel.id))
+      const headers = getAuthHeader();
+      await axios.delete(apiRoutes.channelPath(channel.id), { headers });
+      dispatch(channelsActions.removeChannel(channel.id));
 
-      toast.success(t('notifications.channelRemoved'))
-      handleClose()
+      toast.success(t('notifications.channelRemoved'));
+      handleClose();
+    } catch (err) {
+      console.error(t('removeChannel.error'), err);
     }
-    catch (err) {
-      console.error(t('removeChannel.error'), err)
-    }
-  }
+  };
 
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -45,7 +44,7 @@ const RemoveChannelModal = ({ show, handleClose, channel }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
 
-export default RemoveChannelModal
+export default RemoveChannelModal;
