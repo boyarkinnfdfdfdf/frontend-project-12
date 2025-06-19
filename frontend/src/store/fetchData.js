@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import i18n from '../services/i18n.js'
 import apiRoutes from '../services/route.js'
 import { channelsActions } from './channelsSlice.js'
-import { messagesActions } from './messagesSlice.js'
+import { messagesActions } from './messagesApi.js'
 
 export const fetchChannels = headers => async (dispatch) => {
   try {
