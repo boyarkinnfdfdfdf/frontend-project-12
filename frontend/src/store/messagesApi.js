@@ -19,7 +19,7 @@ export const messagesApi = createApi({
         method: 'GET',
       }),
     }),
-    sendMessage: builder.mutation({
+    addMessage: builder.mutation({
       query: ({ channelId, ...data }) => ({
         url: `/channels/${channelId}/messages`,
         method: 'POST',
@@ -37,6 +37,6 @@ export const messagesApi = createApi({
 
 export const {
   useGetMessagesQuery,
-  useSendMessageMutation,
+  useAddMessageMutation,
   useDeleteMessageMutation,
 } = messagesApi;

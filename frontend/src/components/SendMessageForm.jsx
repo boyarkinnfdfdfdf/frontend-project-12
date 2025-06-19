@@ -1,44 +1,44 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
-import { useRef, useEffect } from 'react'
-import leoProfanity from 'leo-profanity'
-import { useTranslation } from 'react-i18next'
-import sendIcon from '../assets/send.svg'
-import { useAddMessageMutation } from '../store/messagesApi'
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { useRef, useEffect } from 'react';
+import leoProfanity from 'leo-profanity';
+import { useTranslation } from 'react-i18next';
+import sendIcon from '../assets/send.svg';
+import { useAddMessageMutation } from '../store/messagesApi';
 
 const SendMessageForm = ({
   username,
   currentChannelId,
   isSubmitting: parentIsSubmitting,
 }) => {
-  const { t } = useTranslation()
-  const inputRef = useRef(null)
+  const { t } = useTranslation();
+  const inputRef = useRef(null);
   const [addMessage] = useAddMessageMutation();
 
   useEffect(() => {
-    inputRef.current?.focus()
-  }, [currentChannelId])
+    inputRef.current?.focus();
+  }, [currentChannelId]);
 
   const validationSchema = Yup.object({
     body: Yup.string().trim().required(t('chat.errors.required')),
-  })
+  });
 
   const handleSubmit = async (values, { resetForm, setSubmitting, setFieldError }) => {
-    const sanitized = leoProfanity.clean(values.body.trim())
+    const sanitized = leoProfanity.clean(values.body.trim());
     try {
       await addMessage({
         channelId: currentChannelId,
         body: sanitized,
         username,
-      }).unwrap()
-      resetForm()
+      }).unwrap();
+      resetForm();
     } catch (err) {
-      setFieldError('body', t('chat.sendError'))
-      console.error('Send message error:', err)
+      setFieldError('body', t('chat.sendError'));
+      console.error('Send message error:', err);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Formik
@@ -77,7 +77,7 @@ const SendMessageForm = ({
         </Form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default SendMessageForm
+export default SendMessageForm;
