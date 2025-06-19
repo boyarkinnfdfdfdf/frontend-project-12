@@ -12,19 +12,22 @@ export const messagesApi = createApi({
       return headers;
     },
   }),
-  endpoints: (build) => ({
-    fetchMessages: build.query({
-      query: ({ channelId }) => `/channels/${channelId}/messages`,
-    }),
-    addMessage: build.mutation({
-      query: ({ channelId, ...body }) => ({
+  endpoints: (builder) => ({
+    getMessages: builder.query({
+      query: (channelId) => ({
         url: `/channels/${channelId}/messages`,
-        method: 'POST',
-        body,
+        method: 'GET',
       }),
     }),
-    removeMessage: build.mutation({
-      query: ({ id, channelId }) => ({
+    sendMessage: builder.mutation({
+      query: ({ channelId, ...data }) => ({
+        url: `/channels/${channelId}/messages`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    deleteMessage: builder.mutation({
+      query: ({ channelId, id }) => ({
         url: `/channels/${channelId}/messages/${id}`,
         method: 'DELETE',
       }),
@@ -33,7 +36,7 @@ export const messagesApi = createApi({
 });
 
 export const {
-  useFetchMessagesQuery,
-  useAddMessageMutation,
-  useRemoveMessageMutation,
+  useGetMessagesQuery,
+  useSendMessageMutation,
+  useDeleteMessageMutation,
 } = messagesApi;
