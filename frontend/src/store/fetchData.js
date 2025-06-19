@@ -10,7 +10,7 @@ export const fetchChannels = headers => async (dispatch) => {
     const { data } = await axios.get(apiRoutes.channelsPath(), { headers })
     dispatch(channelsActions.setChannels(data))
   }
-  catch (error) {
+  catch {
     toast.error(i18n.t('notifications.fetchError'))
   }
 }
@@ -20,7 +20,7 @@ export const fetchMessages = headers => async (dispatch) => {
     const { data } = await axios.get(apiRoutes.messagesPath(), { headers })
     dispatch(messagesActions.setMessages(data))
   }
-  catch (error) {
+  catch {
     toast.error(i18n.t('notifications.fetchError'))
   }
 }
